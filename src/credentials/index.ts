@@ -4,14 +4,17 @@
 
 export const GeminiCredential = {
   name: "geminiCredential",
-  type: "object",
-  title: "Google Gemini API Credentials",
-  properties: {
-    apiKey: {
-      type: "string",
-      title: "API Key",
+  displayName: "Google Gemini",
+  description: "Credentials for Google Gemini API",
+  properties: [
+    {
+      name: "apiKey",
+      displayName: "API Key",
+      type: "string" as const,
+      required: true,
+      secret: true,
       description: "Your Google Gemini API key",
-    },
-  },
-  required: ["apiKey"],
+      placeholder: "AIza..."
+    }
+  ]
 };

@@ -78,27 +78,30 @@ export async function generateImages(
         continue;
       }
 
-      // Extract image data
-      if (chunk.candidates?.[0]?.content?.parts?.[0]?.inlineData) {
-        const inlineData = chunk.candidates[0].content.parts[0].inlineData;
-        const mimeType = inlineData.mimeType || 'image/png';
-        const fileExtension = mime.getExtension(mimeType) || 'png';
-        const fileName = config.fileName 
-          ? `${config.fileName}_${fileIndex}.${fileExtension}`
-          : `generated_image_${fileIndex}.${fileExtension}`;
+      // Iterate through all parts in the response
+      for (const part of chunk.candidates[0].content.parts) {
+        // Extract image data
+        if (part.inlineData) {
+          const inlineData = part.inlineData;
+          const mimeType = inlineData.mimeType || 'image/png';
+          const fileExtension = mime.getExtension(mimeType) || 'png';
+          const fileName = config.fileName 
+            ? `${config.fileName}_${fileIndex}.${fileExtension}`
+            : `generated_image_${fileIndex}.${fileExtension}`;
 
-        images.push({
-          data: inlineData.data || '',
-          mimeType,
-          fileName,
-        });
+          images.push({
+            data: inlineData.data || '',
+            mimeType,
+            fileName,
+          });
 
-        fileIndex++;
-        log.info(`Generated image ${fileIndex}`, { fileName, mimeType });
-      }
-      // Extract text response if any
-      else if (chunk.text) {
-        textResponse += chunk.text;
+          fileIndex++;
+          log.info(`Generated image ${fileIndex}`, { fileName, mimeType });
+        }
+        // Extract text response if any
+        else if (part.text) {
+          textResponse += part.text;
+        }
       }
     }
 

@@ -11,7 +11,7 @@ export function createNodeDefinition(): EnhancedNodeDefinition {
   const { NodeInputType } = getPlatformDependencies();
 
   return {
-    packageVersion: "1.0.0",
+    packageVersion: "1.0.1",
     type: "GeminiImageGen",
     isService: false,
     name: "Gemini Image Gen",
@@ -86,6 +86,7 @@ export function createNodeDefinition(): EnhancedNodeDefinition {
           title: "File Name Prefix",
           description: "Prefix for generated image file names (optional)",
           default: "generated_image",
+          "ui:field": "template",
         },
       },
       required: ["model", "prompt"],
